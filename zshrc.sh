@@ -150,27 +150,27 @@ function unblock {
 }
 
 function proxy {
-	if [[ -f $CONFIG/proxy-list.txt ]]; then
-		rm -rf $CONFIG/proxy-list.txt
+	if [[ -e $CONFIG/proxy_list.txt ]]; then
+		rm -rf $CONFIG/proxy_list.txt
 	fi
 	curl -sSf "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt" \
-		>$CONFIG/proxy-list
+		>$CONFIG/proxy_list.txt
 }
 
 function install {
 	if [[ $1 == 'brew' ]]; then
 		if [[ $2 == 'local' ]]; then
 			cd $CONFIG &&
-			mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master |
-			tar xz --strip 1 -C homebrew &&
-			$CONFIG/homebrew/bin/brew update &&
-			$CONFIG/homebrew/bin/brew upgrade && z &&
-			echo "Brew installed successfully"
+				mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master |
+				tar xz --strip 1 -C homebrew &&
+				$CONFIG/homebrew/bin/brew update &&
+				$CONFIG/homebrew/bin/brew upgrade && z &&
+				echo "Brew installed successfully"
 		else
 			/bin/bash -c \
-			"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+				"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 			brew -v update &&
-			brew -v upgrade
+				brew -v upgrade
 		fi
 		# elif [[ $1 == 'nvm' ]] ; then
 		# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
@@ -383,11 +383,13 @@ function history {
 }
 
 function rand {
-	if [[ $1 == "-u" ]] || [[ $1 ==  "user" ]]; then
-		openssl rand -base64 64 | tr -d "=+/1-9" | cut -c-16 | head -1 | lower | pc ; pp
-	elif [[ $1 == "-p" ]] || [[ $1 ==  "pass" ]]; then
-		openssl rand -base64 300 | tr -d "=+/" | cut -c12-20 | tr '\n' '-' | cut -b -26 | pc ; pp
-	elif [[ $1 == "-l" ]] || [[ $1 ==  "line" ]]; then
+	if [[ $1 == "-u" ]] || [[ $1 == "user" ]]; then
+		openssl rand -base64 64 | tr -d "=+/1-9" | cut -c-16 | head -1 | lower | pc
+		pp
+	elif [[ $1 == "-p" ]] || [[ $1 == "pass" ]]; then
+		openssl rand -base64 300 | tr -d "=+/" | cut -c12-20 | tr '\n' '-' | cut -b -26 | pc
+		pp
+	elif [[ $1 == "-l" ]] || [[ $1 == "line" ]]; then
 		awk 'BEGIN{srand();}{if (rand() <= 1.0/NR) {x=$0}}END{print x}' $2
 	else
 		echo "usage: rand [-u user] [-p password len] [-l line]"
