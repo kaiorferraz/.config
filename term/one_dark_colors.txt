@@ -1,0 +1,8 @@
+#ABB2BF Foreground
+#282C34 Background
+#E06C75 Red
+#98C379 Green
+#E5C07B Yellow
+#61AFEF Blue
+#C678DD Magenta
+#56B6c2 Cyan

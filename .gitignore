@@ -1,0 +1,8 @@
+gh/
+.nvm/
+homebrew/
+.zcompcache/
+.DS_Store
+.zcompdump
+flutter
+iterm2

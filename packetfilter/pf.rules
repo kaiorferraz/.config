@@ -1,0 +1,24 @@
+wifi = "en0"
+
+set block-policy drop
+set fingerprints "/etc/pf.os" 
+set ruleset-optimization basic
+set skip on lo0
+
+scrub in all no-df
+
+table <blocklist> persist
+
+block in log
+block in log quick from no-route to any
+block log on $wifi from { <blocklist> } to any
+block log on $wifi from any to { <blocklist> }
+
+antispoof quick for { $wifi }
+
+pass out proto tcp from { $wifi } to any keep state 
+pass out proto udp from { $wifi } to any keep state 
+
+block in log on $wifi proto tcp from any to $wifi port 22 
+block in log on $wifi proto tcp from any to $wifi port 80 
+block in log on $wifi proto tcp from any to $wifi port 443 
