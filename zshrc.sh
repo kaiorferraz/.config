@@ -278,15 +278,23 @@ function dmg {
 	fi
 }
 
+# function to manage disk utility using hdiutil
+
+
+
 function update {
 	brew update
 	brew upgrade
+	flutter upgrade
 }
+alias upgrade="update"
+alias up="upgrade"
 
 function cleanup {
 	brew cleanup
 	brew autoremove
 }
+
 function info {
 	brew info $@
 }
@@ -602,20 +610,12 @@ typeset -g ZSH_AUTOSUGGEST_ORIGINAL_WIDGET_PREFIX=autosuggest-orig-
 (( ! ${+ZSH_AUTOSUGGEST_COMPLETIONS_PTY_NAME} )) &&
 typeset -g ZSH_AUTOSUGGEST_COMPLETIONS_PTY_NAME=zsh_autosuggest_completion_pty
 
-#--------------------------------------------------------------------#
-# Utility Functions                                                  #
-#--------------------------------------------------------------------#
-
 _zsh_autosuggest_escape_command() {
 	setopt localoptions EXTENDED_GLOB
 
 	# Escape special chars in the string (requires EXTENDED_GLOB)
 	echo -E "${1//(#m)[\"\'\\()\[\]|*?~]/\\$MATCH}"
 }
-
-#--------------------------------------------------------------------#
-# Widget Helpers                                                     #
-#--------------------------------------------------------------------#
 
 _zsh_autosuggest_incr_bind_count() {
 	typeset -gi bind_count=$((_ZSH_AUTOSUGGEST_BIND_COUNTS[$1]+1))
@@ -719,10 +719,6 @@ _zsh_autosuggest_invoke_original_widget() {
 	fi
 }
 
-#--------------------------------------------------------------------#
-# Highlighting                                                       #
-#--------------------------------------------------------------------#
-
 # If there was a highlight, remove it
 _zsh_autosuggest_highlight_reset() {
 	typeset -g _ZSH_AUTOSUGGEST_LAST_HIGHLIGHT
@@ -744,10 +740,6 @@ _zsh_autosuggest_highlight_apply() {
 		unset _ZSH_AUTOSUGGEST_LAST_HIGHLIGHT
 	fi
 }
-
-#--------------------------------------------------------------------#
-# Autosuggest Widget Implementations                                 #
-#--------------------------------------------------------------------#
 
 # Disable suggestions
 _zsh_autosuggest_disable() {
@@ -976,10 +968,6 @@ _zsh_autosuggest_partial_accept() {
 	done
 }
 
-#--------------------------------------------------------------------#
-# Completion Suggestion Strategy                                     #
-#--------------------------------------------------------------------#
-# Fetches a suggestion from the completion engine
 #
 
 _zsh_autosuggest_capture_postcompletion() {
@@ -1113,10 +1101,6 @@ _zsh_autosuggest_strategy_completion() {
 	}
 }
 
-#--------------------------------------------------------------------#
-# History Suggestion Strategy                                        #
-#--------------------------------------------------------------------#
-# Suggests the most recent history item that matches the given
 # prefix.
 #
 
@@ -1190,10 +1174,6 @@ _zsh_autosuggest_strategy_match_prev_cmd() {
 	typeset -g suggestion="$history[$histkey]"
 }
 
-#--------------------------------------------------------------------#
-# Fetch Suggestion                                                   #
-#--------------------------------------------------------------------#
-# Loops through all specified strategies and returns a suggestion
 # from the first strategy to provide one.
 #
 
@@ -1216,10 +1196,6 @@ _zsh_autosuggest_fetch_suggestion() {
 		[[ -n "$suggestion" ]] && break
 	done
 }
-
-#--------------------------------------------------------------------#
-# Async                                                              #
-#--------------------------------------------------------------------#
 
 _zsh_autosuggest_async_request() {
 	zmodload zsh/system 2>/dev/null # For `$sysparams`
@@ -1292,10 +1268,6 @@ _zsh_autosuggest_async_response() {
 	# Always remove the handler
 	zle -F "$1"
 }
-
-#--------------------------------------------------------------------#
-# Start                                                              #
-#--------------------------------------------------------------------#
 
 # Start the autosuggestion widgets
 _zsh_autosuggest_start() {
