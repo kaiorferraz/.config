@@ -161,10 +161,10 @@ function install {
 	if [[ $1 == 'brew' ]]; then
 		if [[ $2 == 'local' ]]; then
 			cd $CONFIG &&
-				mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master |
-				tar xz --strip 1 -C homebrew &&
-				$CONFIG/homebrew/bin/brew update &&
-				$CONFIG/homebrew/bin/brew upgrade && z &&
+				mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+				$CONFIG/homebrew/bin/brew update
+				$CONFIG/homebrew/bin/brew upgrade
+				z
 				echo "Brew installed successfully"
 		else
 			/bin/bash -c \
@@ -172,12 +172,9 @@ function install {
 			brew -v update &&
 				brew -v upgrade
 		fi
-		# elif [[ $1 == 'nvm' ]] ; then
-		# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 	elif [[ $1 == 'flutter' ]]; then
+		brew install flutter
 		sudo softwareupdate --install-rosetta --agree-to-license
-		cd $CONFIG && git clone https://github.com/flutter/flutter.git -b master
-		$CONFIG/flutter/bin/flutter precache
 		gem install cocoapods
 		gem uninstall ffi && sudo gem install ffi -- --enable-libffi-alloc
 	else
@@ -468,6 +465,7 @@ path "/usr/local/bin"
 path "/usr/local/sbin"
 if [[ -d "$CONFIG/flutter/bin" ]]; then
 	path "$CONFIG/flutter/bin"
+	path "$CONFIG/flutter/sbin"
 fi
 if [[ -d "$CONFIG/homebrew/bin" ]]; then
 	path "$CONFIG/homebrew/bin"
@@ -480,14 +478,14 @@ autoload -U colors && colors
 autoload -Uz compinit
 compinit
 
-compdef '_brew install' install
 compdef '_brew uninstall' uninstall
+compdef '_brew install' install
 compdef '_brew search' search
-compdef '_brew list' list
 compdef '_brew update' update
+compdef '_brew list' list
+compdef '_youtube-dl' yt
 compdef '_flutter' fl
 compdef '_tree' t
-compdef '_youtube-dl' yt
 
 #prompt
 # prompt='%F{cyan}%h %F{green}%B%d%F{magenta}%b $(branch_name)%f➜ '
