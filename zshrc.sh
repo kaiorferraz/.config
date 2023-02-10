@@ -273,12 +273,6 @@ function generate_ip {
 	done
 }
 
-function connect {
-	if [[ $1 == "ubuntu" ]]; then
-		ssh root@164.92.89.226 -i $HOME/.ssh/ed25519-ubuntu-odigitalocean-one
-	fi
-}
-
 function dmg {
 	if [[ $1 == "crypt" ]]; then
 		hdiutil create $2.dmg -encryption -size $3 -volname $2 -fs JHFS+
@@ -287,18 +281,12 @@ function dmg {
 	fi
 }
 
-# function to manage disk utility using hdiutil
-
-
-
 function update {
 	brew update
 	brew upgrade
-}
-
-function cleanup {
 	brew cleanup
 	brew autoremove
+
 }
 
 function info {
@@ -413,7 +401,6 @@ function rand {
 # 	killall Terminal
 # 	osascript -e 'tell application "Terminal" to open'
 # }
-
 # function dark {
 # 	osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to not dark mode' &&
 # 		osascript -e 'tell application "System Events" to tell every desktop to set picture to "/Users/kaio/.config/dark.png"' &&
@@ -449,7 +436,7 @@ function branch_name {
 	git branch 2>/dev/null | sed -n -e 's/^\* \(.*\)/(\1) /p'
 }
 
-function len {
+function lenght {
 	echo -n $1 | wc -c
 }
 
@@ -503,7 +490,7 @@ compdef '_tree' t
 #prompt
 # prompt='%F{cyan}%h %F{green}%B%d%F{magenta}%b $(branch_name)%f➜ '
 # prompt='%F{red}% $(branch_name)%f➜ '
-prompt='%F{cyan}%h %F{green}%B%~%F{red}%b $(branch_name)%f
+prompt='%F{cyan}%h %F{green}%B%/%F{red}%b $(branch_name)%f
 ➜ '
 
 #nvm
