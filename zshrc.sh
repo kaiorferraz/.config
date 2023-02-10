@@ -93,7 +93,6 @@ alias add="git add"
 alias func="functions"
 alias c="clear"
 alias z="zsh"
-alias l="ls -lhAGF"
 alias ll="ls -lhAGF1"
 alias rm="rm -drf"
 alias grep="grep --text --color"
@@ -138,7 +137,15 @@ function t {
 	if command -v tree >/dev/null; then
 		tree --dirsfirst --sort=name -LlaC 1 $@
 	else
-		l
+		l $@
+	fi
+}
+
+function l {
+	if command -v tree >/dev/null; then
+		tree --dirsfirst --sort=name -LlaC 1 $@
+	else
+		ls -Glap
 	fi
 }
 
@@ -287,10 +294,7 @@ function dmg {
 function update {
 	brew update
 	brew upgrade
-	flutter upgrade
 }
-alias upgrade="update"
-alias up="upgrade"
 
 function cleanup {
 	brew cleanup
@@ -450,9 +454,9 @@ function len {
 }
 
 function wrap {
-	if [[ $1 == "on" ]]; then
+	if [[ $1 == "off" ]]; then
 		tput rmam
-	elif [[ $1 == "off" ]]; then
+	elif [[ $1 == "on" ]]; then
 		tput smam
 	else
 		echo "\n\nDefine word wrapping within terminal\n\nUsage: wrap on|off\n\n"
