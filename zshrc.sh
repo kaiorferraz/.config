@@ -315,7 +315,7 @@ function pyenv {
 }
 
 function cloud {
-	cd "~/Library/Mobile\ Documents/com\~apple\~CloudDocs"
+	cd ~/Library/Mobile\ Documents/com\~apple\~CloudDocs
 }
 
 function clone {
